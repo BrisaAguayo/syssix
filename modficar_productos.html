@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Productos</title>
+    <style>
+        /* Estilos CSS */
+        /* ... (coloca tus estilos aquí) ... */
+    </style>
+</head>
+<body>
+    <h1>Modificar Productos</h1>
+
+    <!-- Formulario para modificar productos -->
+    <h2>Modificar Producto</h2>
+    <form id="modifyProductForm">
+        <label for="productId">ID del Producto:</label>
+        <input type="text" id="productId" required>
+        <label for="productName">Nombre del Producto:</label>
+        <input type="text" id="productName" required>
+        <label for="productPrice">Precio:</label>
+        <input type="text" id="productPrice" required>
+        <label for="productDiscount">Descuento:</label>
+        <input type="text" id="productDiscount" required>
+        <button type="button" id="modifyProductButton">Modificar Producto</button>
+    </form>
+
+    <!-- Lista de productos -->
+    <h2>Lista de Productos</h2>
+    <ul id="productList">
+        <!-- Los productos se listarán aquí -->
+    </ul>
+
+    <!-- Script JavaScript -->
+    <script>
+        // JavaScript
+        const productList = document.getElementById("productList");
+        const modifyProductForm = document.getElementById("modifyProductForm");
+        const productIdInput = document.getElementById("productId");
+        const productNameInput = document.getElementById("productName");
+        const productPriceInput = document.getElementById("productPrice");
+        const productDiscountInput = document.getElementById("productDiscount");
+        const modifyProductButton = document.getElementById("modifyProductButton");
+
+        // Array para almacenar los productos (puedes cargar datos existentes aquí)
+        const products = [];
+
+        modifyProductButton.addEventListener("click", () => {
+            // Obtener los valores del formulario
+            const productId = productIdInput.value;
+            const productName = productNameInput.value;
+            const productPrice = productPriceInput.value;
+            const productDiscount = productDiscountInput.value;
+
+            // Buscar el producto en el array (supongamos que el ID es único)
+            const existingProduct = products.find(product => product.id === productId);
+
+            if (existingProduct) {
+                // Actualizar los datos del producto existente
+                existingProduct.name = productName;
+                existingProduct.price = productPrice;
+                existingProduct.discount = productDiscount;
+
+                // Limpiar los campos del formulario
+                productIdInput.value = "";
+                productNameInput.value = "";
+                productPriceInput.value = "";
+                productDiscountInput.value = "";
+
+                // Actualizar la lista de productos
+                updateProductList();
+            } else {
+                alert("El producto con el ID especificado no existe.");
+            }
+        });
+
+        function updateProductList() {
+            // Limpiar la lista actual
+            productList.innerHTML = "";
+
+            // Iterar a través de los productos y agregarlos a la lista
+            products.forEach((product, index) => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `${product.name} - Precio: $${product.price} - Descuento: ${product.discount}%`;
+
+                // Botón para eliminar el producto
+                const deleteButton = document.createElement("button");
+                deleteButton.innerText = "Eliminar Producto";
+                deleteButton.style.color = "red";
+                deleteButton.addEventListener("click", () => confirmDeleteProduct(index));
+
+                // Botón para modificar el producto
+                const modifyButton = document.createElement("button");
+                modifyButton.innerText = "Modificar Producto";
+                modifyButton.style.color = "blue";
+                modifyButton.addEventListener("click", () => loadProductForModification(index));
+
+                listItem.appendChild(deleteButton);
+                listItem.appendChild(modifyButton);
+                productList.appendChild(listItem);
+            });
+        }
+
+        function confirmDeleteProduct(index) {
+            const confirmation = window.confirm("¿Seguro que deseas eliminar este producto?");
+            if (confirmation) {
+                // Eliminar el producto del array
+                products.splice(index, 1);
+
+                // Actualizar la lista de productos
+                updateProductList();
+            }
+        }
+
+        function loadProductForModification(index) {
+            // Cargar los datos del producto en el formulario de modificación
+            const product = products[index];
+            productIdInput.value = product.id;
+            productNameInput.value = product.name;
+            productPriceInput.value = product.price;
+            productDiscountInput.value = product.discount;
+        }
+
+        // Actualizar la lista inicial
+        updateProductList();
+    </script>
+</body>
+</html>

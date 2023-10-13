@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Productos</title>
+    <style>
+        /* Estilos CSS */
+        /* ... (coloca tus estilos aquí) ... */
+    </style>
+</head>
+<body>
+    <h1>Agregar Productos</h1>
+
+    <!-- Formulario para agregar productos -->
+    <h2>Agregar Producto</h2>
+    <form id="addProductForm">
+        <label for="productId">ID del Producto:</label>
+        <input type="text" id="productId" required>
+        <label for="productName">Nombre del Producto:</label>
+        <input type="text" id="productName" required>
+        <label for="productPrice">Precio:</label>
+        <input type="text" id="productPrice" required>
+        <label for="productDiscount">Descuento:</label>
+        <input type="text" id="productDiscount" required>
+        <button type="button" id="addProductButton">Agregar Producto</button>
+    </form>
+
+    <!-- Lista de productos -->
+    <h2>Lista de Productos</h2>
+    <ul id="productList">
+        <!-- Los productos se listarán aquí -->
+    </ul>
+
+    <!-- Script JavaScript -->
+    <script>
+        // JavaScript
+        const productList = document.getElementById("productList");
+        const addProductForm = document.getElementById("addProductForm");
+        const productIdInput = document.getElementById("productId");
+        const productNameInput = document.getElementById("productName");
+        const productPriceInput = document.getElementById("productPrice");
+        const productDiscountInput = document.getElementById("productDiscount");
+        const addProductButton = document.getElementById("addProductButton");
+
+        // Array para almacenar los productos
+        const products = [];
+
+        addProductButton.addEventListener("click", () => {
+            // Obtener los valores del formulario
+            const productId = productIdInput.value;
+            const productName = productNameInput.value;
+            const productPrice = productPriceInput.value;
+            const productDiscount = productDiscountInput.value;
+
+            // Crear un objeto de producto
+            const product = {
+                id: productId,
+                name: productName,
+                price: productPrice,
+                discount: productDiscount,
+            };
+
+            // Agregar el producto al array
+            products.push(product);
+
+            // Limpiar los campos del formulario
+            productIdInput.value = "";
+            productNameInput.value = "";
+            productPriceInput.value = "";
+            productDiscountInput.value = "";
+
+            // Actualizar la lista de productos
+            updateProductList();
+        });
+
+        function updateProductList() {
+            // Limpiar la lista actual
+            productList.innerHTML = "";
+
+            // Iterar a través de los productos y agregarlos a la lista
+            products.forEach((product, index) => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `${product.name} - Precio: $${product.price} - Descuento: ${product.discount}%`;
+
+                // Botón para eliminar el producto
+                const deleteButton = document.createElement("button");
+                deleteButton.innerText = "Eliminar Producto";
+                deleteButton.style.color = "red";
+                deleteButton.addEventListener("click", () => confirmDeleteProduct(index));
+
+                // Botón para modificar el producto (puedes agregar lógica de modificación aquí)
+                const modifyButton = document.createElement("button");
+                modifyButton.innerText = "Modificar Producto";
+                modifyButton.style.color = "blue";
+                modifyButton.addEventListener("click", () => modifyProduct(index));
+
+                listItem.appendChild(deleteButton);
+                listItem.appendChild(modifyButton);
+                productList.appendChild(listItem);
+            });
+        }
+
+        function confirmDeleteProduct(index) {
+            const confirmation = window.confirm("¿Seguro que deseas eliminar este producto?");
+            if (confirmation) {
+                // Eliminar el producto del array
+                products.splice(index, 1);
+
+                // Actualizar la lista de productos
+                updateProductList();
+            }
+        }
+
+        // Puedes agregar la lógica de modificación de productos aquí
+        function modifyProduct(index) {
+            window.location.href = "agregar_productos.html";
+            // Implementa la lógica de modificación de productos
+            // Puedes abrir una ventana emergente con los datos del producto para modificarlos
+        }
+
+        // Actualizar la lista inicial
+        updateProductList();
+    </script>
+</body>
+</html>

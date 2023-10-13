@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SysSix - Home</title>
+    <style>
+        /* Estilos CSS */
+        /* ... (coloca tus estilos aquí) ... */
+        /* Estilo para la ventana emergente de inicio de sesión y registro */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .modal-content {
+            background-color: #fff;
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="logo">
+            <img src="logo.png" alt="Logo" width="50" height="50">
+        </div>
+        <div id="menu">
+            <a href="#" id="loginBtn">Iniciar Sesión</a>
+            <a href="#">Buscar</a>
+            <a href="#">Explorar</a>
+        </div>
+    </div>
+    <div id="content">
+        <h1>SysSix</h1>
+        <p>Save big and earn cryptocurrencies while you shop with our digital coupon and cashback portal!</p>
+    </div>
+
+    <!-- Ventana emergente de inicio de sesión -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span id="closeLoginModal" style="cursor: pointer;">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" id="username" required>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" required>
+                <button type="submit">Ingresar</button>
+            </form>
+            <p>¿No tienes una cuenta? <a href="#" id="signupLink">Regístrate</a></p>
+        </div>
+    </div>
+
+    <!-- Ventana emergente de registro -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span id="closeSignupModal" style="cursor: pointer;">&times;</span>
+            <h2>Registrarse</h2>
+            <form id="signupForm">
+                <label for="newUsername">Nombre de Usuario:</label>
+                <input type="text" id="newUsername" required>
+                <label for="newPassword">Contraseña:</label>
+                <input type="password" id="newPassword" required>
+                <label for="adminKey">Clave Admin:</label>
+                <input type="password" id="adminKey" required>
+                <input type="checkbox" id="notAdminCheckbox"> No soy Admin
+                <button type="submit">Registrar</button>
+            </form>
+            <div id="adminKeyError" style="color: red; display: none;">Clave Admin Incorrecta</div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript
+
+        const loginModal = document.getElementById("loginModal");
+        const signupModal = document.getElementById("signupModal");
+        const loginBtn = document.getElementById("loginBtn");
+        const signupLink = document.getElementById("signupLink");
+        const closeLoginModal = document.getElementById("closeLoginModal");
+        const closeSignupModal = document.getElementById("closeSignupModal");
+        const notAdminCheckbox = document.getElementById("notAdminCheckbox");
+        const adminKeyInput = document.getElementById("adminKey");
+        const adminKeyError = document.getElementById("adminKeyError");
+
+        loginBtn.addEventListener("click", () => loginModal.style.display = "block");
+        signupLink.addEventListener("click", () => {
+            loginModal.style.display = "none";
+            signupModal.style.display = "block";
+        });
+        closeLoginModal.addEventListener("click", () => loginModal.style.display = "none");
+        closeSignupModal.addEventListener("click", () => {
+            signupModal.style.display = "none";
+            adminKeyError.style.display = "none";
+        });
+
+        notAdminCheckbox.addEventListener("change", () => {
+            adminKeyInput.disabled = notAdminCheckbox.checked;
+        });
+
+        const signupForm = document.getElementById("signupForm");
+
+        signupForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const adminKeyValue = adminKeyInput.value;
+
+            if (!notAdminCheckbox.checked && adminKeyValue === "pollitofeliz") {
+                // Redirige al usuario a la página Agregar Productos
+                window.location.href = "agregar_productos.html";
+            } else {
+                // Redirige al usuario a la página Explorar
+                window.location.href = "explorar.html";
+            }
+        });
+
+        // ... (agregar más funciones JavaScript según sea necesario) ...
+    </script>
+</body>
+</html>
